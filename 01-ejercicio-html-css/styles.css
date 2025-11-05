@@ -103,7 +103,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: .5rem 2rem;
 
     h2 {
         font-size: 1.25rem;
@@ -147,7 +148,6 @@ header div a {
 
 /* Hero */
 main>section:nth-child(1) {
-    height: 500px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -357,7 +357,7 @@ article {
 
 .jobs-main {
     margin: auto;
-    padding: 2rem;
+    padding: 2rem 1rem;
 
     form {
         max-width: 100%;
@@ -388,6 +388,7 @@ main>section.jobs-search {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
     background-color: transparent;
     box-shadow: none;
 
@@ -409,17 +410,15 @@ main>section.jobs-search {
 main>section.jobs-listing {
     padding-top: 1.5rem;
 
-    header {
-        border: none;
-        display: block;
-        padding: 0;
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: left;
         margin-bottom: 20px;
+    }
 
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            text-align: left;
-        }
+    ul {
+        list-style: none;
     }
 
     article {
@@ -449,17 +448,17 @@ main>section.jobs-listing {
             width: 100px;
             background-color: #0d5ba8;
         }
+    }
 
-        &:first-child {
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-        }
+    ul li:first-child article {
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }
 
-        &:last-child {
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
+    ul li:last-child article {
+        border-bottom-left-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
 
-        }
     }
 
     footer {
