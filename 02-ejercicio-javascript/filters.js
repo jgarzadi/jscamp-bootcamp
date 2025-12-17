@@ -9,7 +9,8 @@ const filterTechnology = document.querySelector('#filter-technology');
 function applyFilters() {
     const selectedLocation = filterLocation.value;
     const selectedExperience = filterExperience.value;
-    const searchText = searchInput.value.toLowerCase();
+    // agregamos .trim() por si el usuario ingresa espacios vacíos
+    const searchText = searchInput.value.toLowerCase().trim();
     const selectedTechnology = filterTechnology.value;
 
     const jobListings = document.querySelectorAll('.job-listing-card');
