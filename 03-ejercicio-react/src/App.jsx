@@ -63,7 +63,9 @@ function App() {
       <main>
         <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} />
         <SearchResultsSection jobs={pagedResults} />
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        {jobsWithTextFilter.length > 0 && (
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        )}
       </main>
       <Footer />
     </>

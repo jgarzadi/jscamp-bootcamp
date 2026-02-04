@@ -1,3 +1,4 @@
+
 import { useId, useState, useEffect } from 'react'
 
 export default function SearchFormSection({ onSearch, onTextFilter }) {
@@ -7,25 +8,21 @@ export default function SearchFormSection({ onSearch, onTextFilter }) {
     const idLocation = useId()
     const idExperienceLevel = useId()
 
-    const [filters, setFilters] = useState({
-        technology: '',
-        location: '',
-        experienceLevel: '',
-        text: ''
-    })
-
     const handleFilterJobs = (e) => {
 
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
 
-        setFilters({
+        const filters = {
             technology: formData.get(idTechnology),
             location: formData.get(idLocation),
             experienceLevel: formData.get(idExperienceLevel),
             text: formData.get(idText)
-        })
+        }
+
+        onSearch(filters)
+        onTextFilter(filters.text)
 
     }
 
