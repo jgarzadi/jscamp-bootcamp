@@ -1,21 +1,13 @@
-import JobCard from "./JobCard.jsx";
-import jobs from "../data.json";
+import JobListings from "./JobListings";
 
 export default function SearchResultsSection() {
     return (
         <>
             <section>
                 <h2 style={{ textAlign: 'center' }}>Resultados de búsqueda</h2>
-
-                <div className="jobs-listings">
-                    {jobs.length === 0 ? (
-                        <p>No se han encontrado empleos que coincidan con los criterios de búsqueda.</p>
-                    ) : (
-                        jobs.map((job) => (
-                            <JobCard key={job.id} job={job} />
-                        ))
-                    )}
-                </div>
+                
+                <JobListings />
+                
                 <nav className="pagination">
                     <a href="#">
                         <svg
