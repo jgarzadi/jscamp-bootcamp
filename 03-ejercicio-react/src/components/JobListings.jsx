@@ -1,7 +1,6 @@
 import JobCard from "./JobCard.jsx";
-import jobs from "../data.json";
 
-export default function JobListings() {
+export default function JobListings({jobs}) {
     return (
         <div className="jobs-listings">
             {jobs.length === 0 && (
