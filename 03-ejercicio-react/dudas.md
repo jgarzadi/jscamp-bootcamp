@@ -19,6 +19,8 @@
 ## Quinta parte
 
 <!-- Dudas de la quinta parte del ejercicio -->
+No logré implementar correctamente este punto, me pueden explicar cual es el beneficio de tener este debounce y como se implementa correctamente. Gracias!
+- Agregar un debounce al filtro de búsqueda para que no se haga una nueva búsqueda cada vez que se escribe.
 
 ## Sexta parte
 

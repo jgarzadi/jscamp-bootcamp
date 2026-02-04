@@ -1,11 +1,41 @@
-export default function SearchFormSection() {
+import { useId, useState, useEffect } from 'react'
+
+export default function SearchFormSection({ onSearch, onTextFilter }) {
+
+    const idText = useId()
+    const idTechnology = useId()
+    const idLocation = useId()
+    const idExperienceLevel = useId()
+
+    const [filters, setFilters] = useState({
+        technology: '',
+        location: '',
+        experienceLevel: '',
+        text: ''
+    })
+
+    const handleFilterJobs = (e) => {
+
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+
+        setFilters({
+            technology: formData.get(idTechnology),
+            location: formData.get(idLocation),
+            experienceLevel: formData.get(idExperienceLevel),
+            text: formData.get(idText)
+        })
+
+    }
+
     return (
         <>
             <section className="jobs-search">
                 <h1>Encuentra tu próximo trabajo</h1>
                 <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-                <form id="empleos-search-form" role="search">
+                <form id="empleos-search-form" role="search" onChange={handleFilterJobs}>
                     <div className="search-bar">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -26,13 +56,13 @@ export default function SearchFormSection() {
                         <input
                             id="empleos-search-input"
                             type="text"
-                            name="search-value"
+                            name={idText}
                             placeholder="Buscar trabajos, empresas o habilidades"
                         />
                     </div>
 
                     <div className="search-filters">
-                        <select name="technology-value" id="filter-technology">
+                        <select name={idTechnology} id="filter-technology">
                             <option value="">Tecnología</option>
                             <optgroup label="Tecnologías populares">
                                 <option value="javascript">JavaScript</option>
@@ -50,7 +80,7 @@ export default function SearchFormSection() {
                             <option value="php">PHP</option>
                         </select>
 
-                        <select name="location-value" id="filter-location">
+                        <select name={idLocation} id="filter-location">
                             <option value="">Ubicación</option>
                             <option value="remoto">Remoto</option>
                             <option value="cdmx">Ciudad de México</option>
@@ -59,7 +89,7 @@ export default function SearchFormSection() {
                             <option value="barcelona">Barcelona</option>
                         </select>
 
-                        <select name="experience-level-value" id="filter-experience-level">
+                        <select name={idExperienceLevel} id="filter-experience-level">
                             <option value="">Nivel de experiencia</option>
                             <option value="junior">Junior</option>
                             <option value="mid">Mid-level</option>
