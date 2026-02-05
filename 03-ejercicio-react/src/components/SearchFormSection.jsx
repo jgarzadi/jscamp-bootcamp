@@ -1,30 +1,29 @@
 
-import { useId, useState, useEffect } from 'react'
+import { useEffect, useId } from 'react'
+import { useSearchForm } from '../hooks/useSearchForm.jsx'
+
 
 export default function SearchFormSection({ onSearch, onTextFilter }) {
-
+    
     const idText = useId()
     const idTechnology = useId()
     const idLocation = useId()
     const idExperienceLevel = useId()
 
-    const handleFilterJobs = (e) => {
+    const { handleFilterJobs } = useSearchForm({
+        idTechnology,
+        idLocation,
+        idExperienceLevel,
+        idText,
+        onSearch,
+        onTextFilter
+    })
 
-        e.preventDefault()
-
-        const formData = new FormData(e.currentTarget)
-
-        const filters = {
-            technology: formData.get(idTechnology),
-            location: formData.get(idLocation),
-            experienceLevel: formData.get(idExperienceLevel),
-            text: formData.get(idText)
-        }
-
-        onSearch(filters)
-        onTextFilter(filters.text)
-
-    }
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const textValueFromURL = urlParams.get('text') || ''
+        onTextFilter(textValueFromURL)
+    }, [])
 
     return (
         <>

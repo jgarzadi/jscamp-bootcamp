@@ -1,4 +1,23 @@
-export function HomePage() {
+import { useRouter } from "../hooks/useRouter"
+
+export default function HomePage() {
+
+  const { navigateTo } = useRouter()
+
+  const handleSearch = (e) => {
+
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const searchTerm = formData.get('search')
+    
+    const url = searchTerm
+      ? `/search?text=${encodeURIComponent(searchTerm)}`
+      : '/search'
+
+      navigateTo(url)
+    
+  }
+
   return (
     <main>
       <section>
@@ -10,7 +29,7 @@ export function HomePage() {
           Únete a la comunidad más grande de desarrolladores y encuentra tu próxima oportunidad.
         </p>
 
-        <form role="search">
+        <form role="search" onSubmit={handleSearch}>
           <div>
             <svg
               width="24"
@@ -29,7 +48,6 @@ export function HomePage() {
 
             <input
               name="search"
-              required
               type="text"
               placeholder="Buscar empleos por título, habilidad o empresa"
             />

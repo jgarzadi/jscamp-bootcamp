@@ -29,6 +29,8 @@ No logré implementar correctamente este punto, me pueden explicar cual es el be
 ## Séptima parte
 
 <!-- Dudas de la séptima parte del ejercicio -->
+No me fue posible utilizar useSearchParams de react Router, será porque me falta instalar dependencias?
+Tampoco logré que el custom router redirigiera a la web 404 si el path no coincide 
 
 ## Ejercicio extra
 
