@@ -1,0 +1,30 @@
+.clearButton {
+    padding-top: 0.525rem;
+    padding-bottom: 0.525rem;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    justify-content: center;
+    background-color: #242d3a;
+    border: 0;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: all 0.2s;
+    appearance: none;
+    height: 100%;
+
+    &:hover {
+        background-color: var(--primary-hover);
+        color: white;
+    }
+
+    &:active {
+        transform: none;
+    }
+
+    &:disabled {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}

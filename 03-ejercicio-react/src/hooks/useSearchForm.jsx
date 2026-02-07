@@ -17,8 +17,25 @@ export function useSearchForm({ idTechnology, idLocation, idExperienceLevel, idT
         onTextFilter(filters.text)
     }
 
+    const handleClearFilters = (e) => {
+        console.log(e.target.closest('form'))
+        e.preventDefault()
+        e.target.closest('form').reset()
+
+        const emptyFilters = {
+            technology: '',
+            location: '',
+            experienceLevel: '',
+            text: ''
+        }
+        
+        onSearch(emptyFilters)
+        onTextFilter('')
+    }
+
     return {
-        handleFilterJobs
+        handleFilterJobs,
+        handleClearFilters
     }
 
 }

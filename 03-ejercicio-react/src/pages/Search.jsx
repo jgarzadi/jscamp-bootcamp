@@ -1,69 +1,56 @@
 /* Pasa tu contenido de src/App.jsx aquí */
-import { useState } from 'react'
+import { useEffect } from 'react'
 
 import SearchFormSection from '../components/SearchFormSection.jsx'
 import SearchResultsSection from '../components/SearchResultsSection.jsx'
 import Pagination from "../components/Pagination.jsx"
 
-import jobsData from '../data.json'
+import { useFetchJobs } from '../hooks/useFetchJobs.jsx'
 
-const RESULTS_PER_PAGE = 5
+import styles from '../components/css/Search.module.css'
 
 export default function Search() {
-  const [filters, setFilters] = useState({
-    technology: '',
-    location: '',
-    experienceLevel: ''
-  })
-  const [textToFilter, setTextToFilter] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
 
-  const jobFilterByFilters = jobsData.filter(job => {
-    return (
-      (filters.technology === '' || job.data.technology.toLowerCase().includes(filters.technology.toLowerCase())) &&
-      (filters.location === '' || job.data.modalidad.toLowerCase().includes(filters.location.toLowerCase())) &&
-      (filters.experienceLevel === '' || job.data.nivel.toLowerCase().includes(filters.experienceLevel.toLowerCase()))
-    )
-  })
+  /*
+  const {
+    filters,
+    textToFilter,
+    currentPage,
+    totalPages,
+    pagedResults,
+    jobsWithTextFilter,
+    handlePageChange,
+    handleSearch,
+    handleTextFilter
+  } = useFilters() // Lógica de filtrado en el UI
+  */
 
-  const jobsWithTextFilter = textToFilter === ''
-    ? jobFilterByFilters
-    : jobFilterByFilters.filter(job => {
-      const text = textToFilter.toLowerCase().trim()
-      return (
-        job.titulo.toLowerCase().includes(text)
-      )
-    })
+  const {
+    jobs,
+    total,
+    loading,
+    totalPages,
+    currentPage,
+    handlePageChange,
+    handleSearch,
+    handleTextFilter
+  } = useFetchJobs() // Lógica de filtrado en el backend (simulada)
 
-  const pagedResults = jobsWithTextFilter.slice(
-    (currentPage - 1) * RESULTS_PER_PAGE,
-    currentPage * RESULTS_PER_PAGE
-  )
-
-  const totalPages = jobsWithTextFilter.length > 0 ? Math.ceil(jobsWithTextFilter.length / RESULTS_PER_PAGE) : 1
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page)
-  }
-
-  const handleSearch = (filters) => {
-    setFilters(filters)
-    setCurrentPage(1)
-  }
-
-  const handleTextFilter = (newTextToFilter) => {
-    setTextToFilter(newTextToFilter)
-    setCurrentPage(1)
-  }
+  useEffect(() => {
+    document.title = `Resultados de búsqueda (${total}), Página ${currentPage} de ${totalPages}`
+  }, [total, currentPage, totalPages])
 
   return (
     <>
       <main>
         <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} />
-        <SearchResultsSection jobs={pagedResults} />
-        {jobsWithTextFilter.length > 0 && (
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-        )}
+        {
+          loading ? (
+            <div className={styles.bouncingBall}></div>
+          ) : <SearchResultsSection jobs={jobs} />}
+        {
+          total > 0 && (<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />)
+        }
       </main>
     </>
   )

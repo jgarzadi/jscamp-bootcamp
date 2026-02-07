@@ -1,16 +1,20 @@
 
 import { useEffect, useId } from 'react'
 import { useSearchForm } from '../hooks/useSearchForm.jsx'
+import styles from './css/SearchFormSection.module.css'
 
 
 export default function SearchFormSection({ onSearch, onTextFilter }) {
-    
+
     const idText = useId()
     const idTechnology = useId()
     const idLocation = useId()
     const idExperienceLevel = useId()
 
-    const { handleFilterJobs } = useSearchForm({
+    const {
+        handleFilterJobs,
+        handleClearFilters
+    } = useSearchForm({
         idTechnology,
         idLocation,
         idExperienceLevel,
@@ -92,6 +96,22 @@ export default function SearchFormSection({ onSearch, onTextFilter }) {
                             <option value="senior">Senior</option>
                             <option value="lead">Lead</option>
                         </select>
+                        <button type="button" className={styles.clearButton} onClick={handleClearFilters}>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="15"
+                                height="15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="icon icon-tabler icons-tabler-outline icon-tabler-filter-off">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M8 4h12v2.172a2 2 0 0 1 -.586 1.414l-3.914 3.914m-.5 3.5v4l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
+                                <path d="M3 3l18 18" />
+                            </svg>
+                        </button>
                     </div>
                 </form>
 
