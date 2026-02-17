@@ -8,31 +8,29 @@ export default function Pagination({ currentPage = 1, totalPages = 5, onPageChan
     const stylePrevButton = isFirstPage ? { pointerEvents: 'none', opacity: 0.5 } : {};
     const styleNextButton = isLastPage ? { pointerEvents: 'none', opacity: 0.5 } : {};
 
-    const handlePrevClick = (e) => {
-        e.preventDefault();
+    const handlePrevClick = () => {
         if(!isFirstPage) {
             onPageChange(currentPage - 1);
         }
     }
 
-    const handleNextClick = (e) => {
-        e.preventDefault();
+    const handleNextClick = () => {
         if(!isLastPage) {
             onPageChange(currentPage + 1);
         }
     }
 
-    const handlePageChange = (e) => {
-        e.preventDefault();
-        const selectedPage = Number(e.target.dataset.page);
-        if(selectedPage !== currentPage) {
-            onPageChange(selectedPage);
+    const handlePageChange = (page) => {
+        console.log('handlePageChange', page);
+        if(page !== currentPage) {
+            onPageChange(page);
         }
     }
 
     return (
         <nav className="pagination">
-            <a href="#" style={stylePrevButton} onClick={handlePrevClick}>
+            {/* Cambiamos los `anchor` por `button` para evitar que se abra una nueva pestaña cuando se hace click. No tiene sentido usar `e.preventDefault()` si lo que queremos es no navegar */}
+            <button style={stylePrevButton} onClick={handlePrevClick}>
                 <svg
                     width="16"
                     height="16"
@@ -46,20 +44,19 @@ export default function Pagination({ currentPage = 1, totalPages = 5, onPageChan
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M15 6l-6 6l6 6" />
                 </svg>
-            </a>
+            </button>
             {pages.map((page) => (
-                <a
+                <button
                     key={page}
                     data-page={page}
-                    href="#"
                     className={page === currentPage ? 'is-active' : ''}
-                    onClick={handlePageChange}
+                    onClick={() => handlePageChange(page)}
                 >
                     {page}
-                </a>
+                </button>
             ))}
 
-            <a href="#" style={styleNextButton} onClick={handleNextClick}>
+            <button style={styleNextButton} onClick={handleNextClick}>
                 <svg
                     width="16"
                     height="16"
@@ -74,7 +71,7 @@ export default function Pagination({ currentPage = 1, totalPages = 5, onPageChan
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 6l6 6l-6 6" />
                 </svg>
-            </a>
+            </button>
         </nav>
     )
 }
