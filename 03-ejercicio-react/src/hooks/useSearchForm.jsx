@@ -1,7 +1,13 @@
 
-export function useSearchForm({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter, textValueFromURL }) {
+export function useSearchForm({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter }) {
 
-    const handleFilterJobs = (e) => {
+    const handleTextChange = (e) => {
+        e.stopPropagation() // Con esto evitamos que el evento del input llegue al evento del form. Si no ponemos esto, el form se enviará cuando escribamos en el input y no funcionará el debounce porque el form se enviará antes de que el debounce termine
+        const textValue = e.target.value
+        onTextFilter(textValue)
+    }
+
+    const handleSelectChange = (e) => {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -14,7 +20,6 @@ export function useSearchForm({ idTechnology, idLocation, idExperienceLevel, idT
         }
         
         onSearch(filters)
-        onTextFilter(filters.text)
     }
 
     const handleClearFilters = (e) => {
@@ -34,7 +39,8 @@ export function useSearchForm({ idTechnology, idLocation, idExperienceLevel, idT
     }
 
     return {
-        handleFilterJobs,
+        handleTextChange,
+        handleSelectChange,
         handleClearFilters
     }
 
