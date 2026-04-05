@@ -1,0 +1,98 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.breadcrumbButton {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0;
+}
+
+.breadcrumbSeparator {
+  margin: 0 5px;
+  color: var(--text-muted);
+}
+
+.breadcrumbCurrent {
+  color: var(--text-muted);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 0.5rem 1rem;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.title {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.meta {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.applyButton {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  justify-self: end;
+  background-color: var(--primary-light);
+  color: white;
+  padding: 10px 20px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.sectionContent {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.sectionContent ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sectionContent ul li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.sectionContent ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #16a34a;
+  font-weight: bold;
+}
