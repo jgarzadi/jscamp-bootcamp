@@ -1,4 +1,5 @@
 import { useId, useState, useRef } from 'react'
+import { useSearchParams } from 'react-router'
 
 const useSearchForm = ({
   idTechnology,
@@ -51,6 +52,8 @@ const useSearchForm = ({
 }
 
 export function SearchFormSection({ onTextFilter, onSearch, initialText }) {
+  const [ searchParams ] = useSearchParams()
+
   const idText = useId()
   const idTechnology = useId()
   const idLocation = useId()
@@ -73,6 +76,11 @@ export function SearchFormSection({ onTextFilter, onSearch, initialText }) {
     inputRef.current.value = ''
     onTextFilter('')
   }
+
+  const defaultTextUrl = initialText || searchParams.get('text') || ''
+  const defaultTechnologyUrl = searchParams.get('technology') || ''
+  const defaultLocationUrl = searchParams.get('type') || ''
+  const defaultExperienceUrl = searchParams.get('level') || ''
 
   return (
     <section className="jobs-search">
@@ -105,14 +113,14 @@ export function SearchFormSection({ onTextFilter, onSearch, initialText }) {
             type="text"
             placeholder="Buscar trabajos, empresas o habilidades"
             onChange={handleTextChange}
-            defaultValue={initialText}
+            defaultValue={defaultTextUrl}
           />
 
           <button onClick={handleClearInput}>✖︎</button>
         </div>
 
         <div className="search-filters">
-          <select name={idTechnology} id="filter-technology">
+          <select name={idTechnology} id="filter-technology" defaultValue={defaultTechnologyUrl}>
             <option value="">Tecnología</option>
             <optgroup label="Tecnologías populares">
               <option value="javascript">JavaScript</option>
@@ -130,7 +138,7 @@ export function SearchFormSection({ onTextFilter, onSearch, initialText }) {
             <option value="php">PHP</option>
           </select>
 
-          <select name={idLocation} id="filter-location">
+          <select name={idLocation} id="filter-location" defaultValue={defaultLocationUrl}>
             <option value="">Ubicación</option>
             <option value="remoto">Remoto</option>
             <option value="cdmx">Ciudad de México</option>
@@ -139,7 +147,7 @@ export function SearchFormSection({ onTextFilter, onSearch, initialText }) {
             <option value="barcelona">Barcelona</option>
           </select>
 
-          <select name={idExperienceLevel} id="filter-experience-level">
+          <select name={idExperienceLevel} id="filter-experience-level" defaultValue={defaultExperienceUrl}>
             <option value="">Nivel de experiencia</option>
             <option value="junior">Junior</option>
             <option value="mid">Mid-level</option>
