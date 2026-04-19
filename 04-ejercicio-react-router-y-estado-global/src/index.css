@@ -430,6 +430,27 @@ article {
   }
 }
 
+.button-favorite {
+  padding: 4px auto;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.3);
+    background: none;
+    outline: none;
+  }
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(1, max-content);
+  gap: 0.5rem;
+}
+
 /* Estilos de prosa para contenido de detalle */
 .prose {
   line-height: 1.7;
@@ -509,4 +530,9 @@ article {
   left: 0;
   color: #16a34a;
   font-weight: bold;
+}
+
+.nav-link-active {
+  opacity: .5;
+  pointer-events: none;
 }
