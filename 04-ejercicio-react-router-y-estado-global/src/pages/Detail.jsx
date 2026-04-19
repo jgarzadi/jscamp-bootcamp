@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router";
 import { Link } from "../components/Link.jsx";
 import styles from "./Detail.module.css";
 import snarkdown from "snarkdown";
+import { useAuthStore } from "../store/authStore.js"
+import { useFavoritesStore } from "../store/favoritesStore.js";
 
 function JobSection({ title, content }) {
   const html = snarkdown(content);
@@ -14,6 +16,25 @@ function JobSection({ title, content }) {
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </section>
+  );
+}
+
+function DetailApplyButton() {
+  const { isLoggedIn } = useAuthStore();
+  
+  return isLoggedIn 
+  ? <button className={styles.applyButton}>Aplicar ahora</button> 
+  : <button disabled>Inicia sesión para aplicar a esta oferta</button>
+}
+
+function DetailFavoriteButton({ jobId }) {
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const { isLoggedIn } = useAuthStore();
+
+  return (
+    <button disabled={!isLoggedIn} className={styles.favoriteButton} onClick={() => toggleFavorite(jobId)}>
+      {isFavorite(jobId) ? '❤️' : '🤍'}
+    </button>
   );
 }
 
@@ -85,7 +106,10 @@ export default function JobDetail() {
           <p className={styles.meta}>
             {job.empresa} - {job.ubicacion}
           </p>
-          <button className={styles.applyButton}>Aplicar ahora</button>
+          <div>
+            <DetailApplyButton />
+            <DetailFavoriteButton jobId={job.id} />
+          </div>
         </header>
 
         
