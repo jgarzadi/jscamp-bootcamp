@@ -21,7 +21,10 @@ const useFilters = () => {
 
   const [currentPage, setCurrentPage] = useState(() => {
     const page = Number(searchParams.get('page'))
-    return Number.isNaN(page) ? page : 1
+    // Agregamos esta condición para evitar que la página sea menor a 1
+    if(page < 1) return 1
+    // Estaba mal implementado, si es NaN devolvemos 1, si no es NaN devolvemos el valor
+    return Number.isNaN(page) ? 1 : page
   })
 
   const [jobs, setJobs] = useState([])
@@ -45,6 +48,7 @@ const useFilters = () => {
 
         const queryParams = params.toString()
       
+        // Excelente! Muy bien trabajado el filtro para la API
         const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`)
         const json = await response.json()
 
@@ -53,6 +57,7 @@ const useFilters = () => {
       } catch (error) {
         console.error('Error fetching jobs:', error)
       } finally {
+        // Bien implementado el `finally` para el setLoading
         setLoading(false)
       }
     }
@@ -61,15 +66,24 @@ const useFilters = () => {
   }, [filters, currentPage, textToFilter])
 
   useEffect(() => {
+    //Bien implementado, pero hay que tener consideración en algo...
+    // Que pasa si agregamos un filtro de `technology` y luego lo quitamos?
+    // El `if` solo mira si el valor existe, pero puede pasar esto: existe -> deja de existir por quitar un filtro
+    // En estos casos, podemos hacer esto:
+    const handleAddParamInExists = (params, key, value) => {
+      value ? params.set(key, value) : params.delete(key)
+    }
+
     setSearchParams((params) => {
-      if(textToFilter) params.set('text', textToFilter)
-      if(filters.technology) params.set('technology', filters.technology)
-      if(filters.location) params.set('type', filters.location)
-      if(filters.experienceLevel) params.set('level', filters.experienceLevel)
+      // Si existe el param lo agregamos, y si no, lo removemos.
+      // NOTA: Hicimos una función para no tener que estar colocando en cada linea un `if/else` o un operador ternario. Solo es para que se vea más limpio
+      handleAddParamInExists(params, 'text', textToFilter)
+      handleAddParamInExists(params, 'technology', filters.technology)
+      handleAddParamInExists(params, 'type', filters.location)
+      handleAddParamInExists(params, 'level', filters.experienceLevel)
 
       if (currentPage > 1) params.set('page', currentPage)
 
-      console.log(params)
       return params
     })
 

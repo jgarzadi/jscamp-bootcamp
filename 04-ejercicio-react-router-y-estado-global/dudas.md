@@ -37,6 +37,12 @@ Y en tu markdown o HTML generado, añade la clase check a las listas especiales:
   <li>Conocimiento de TypeScript</li>
 </ul>
 
+**Respuesta:**
+
+Holaa! Muy buena pregunta, lo que hiciste está súper bien. La idea es que cuando nosotros renderizamos HTML por medio de `dangerouslySetInnerHTML`, estamos inyectando HTML directamente en el DOM elementos que no sabemos de que tipo son. Por lo tanto, no podemos aplicar CSS a elementos concretos dentro de su `HTML`. Lo mejor es estilar el elemento padre que engloba todos, y a partir de ahí estilar cada elemento que viene de `dangerouslySetInnerHTML`.
+
+Si no quedó claro, vuelveme a preguntar porfi :)
+
 ## Tercera parte
 
 <!-- Dudas de la tercera parte del ejercicio -->
