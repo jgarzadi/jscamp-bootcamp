@@ -3,8 +3,8 @@ import { join } from 'node:path'
 
 // Aquí irá el código
 
-// Directorio a listar
-const dir = process.argv[2] ?? '.'
+// Directorio a listar , lee parametros desde la línea de comandos y remueve los que tengan -- o -
+const dir = process.argv.slice(2).find(arg => !arg.startsWith('--')) || '.'
 
 // Formatear el tamaño de los archivos
 const formatSize = (size) => {
@@ -29,6 +29,20 @@ const entries = await Promise.all(
     })
 )
 
+// Ordenar por nombre en base a argumento --asc o --desc, si no se especifica, por defecto como se lee de directorio
+const sortOrder = process.argv.includes('--asc') ? 'asc' 
+                    : process.argv.includes('--desc') ? 'desc' : null
+if(sortOrder) {
+    entries.sort((a, b) => {
+        if (sortOrder === 'asc') {
+            return a.name.localeCompare(b.name)
+        } else {
+            return b.name.localeCompare(a.name)
+        }
+    })
+}
+
+// Imprimir resultados
 for (const entry of entries) {
     const icon = entry.isDir ? '📁' : '📄'
     const size = entry.isDir ? '-' : ` ${entry.size}`
