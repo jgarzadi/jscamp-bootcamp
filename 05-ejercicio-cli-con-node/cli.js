@@ -42,9 +42,21 @@ if(sortOrder) {
     })
 }
 
+// si se especifica --folders, solo mostrar carpetas, si se especifica --files, 
+// solo mostrar archivos, si se especifican ambos, mostrar todo, 
+// si no se especifica ninguno, mostrar todo
+const showFolders = process.argv.includes('--folders')
+const showFiles = process.argv.includes('--files')
+
+const filteredEntries = entries.filter(entry => {
+    if (showFolders && !entry.isDir) return false
+    if (showFiles && entry.isDir) return false
+    return true
+})
+
 // Imprimir resultados
-for (const entry of entries) {
+for (const entry of filteredEntries) {
     const icon = entry.isDir ? '📁' : '📄'
     const size = entry.isDir ? '-' : ` ${entry.size}`
-    console.log(`${icon} ${entry.name.padEnd(20)}${size}`)
+    console.log(`${icon} ${entry.name.padEnd(30)}${size}`)
 }
