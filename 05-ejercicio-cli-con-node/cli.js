@@ -6,6 +6,13 @@ import { join } from 'node:path'
 // Directorio a listar , lee parametros desde la línea de comandos y remueve los que tengan -- o -
 const dir = process.argv.slice(2).find(arg => !arg.startsWith('--')) || '.'
 
+// Revisa si se tiene acceso de lectura al directorio en el directorio 
+// Si no tiene acceso, muestra un error y termina el programa
+if (!process.permission.has('fs.read', dir)) {
+    console.error('No se tiene permiso de lectura para el directorio especificado.')
+    process.exit(1)
+}
+
 // Formatear el tamaño de los archivos
 const formatSize = (size) => {
     if (size < 1024) return `${size} B`
