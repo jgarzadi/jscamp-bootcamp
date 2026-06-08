@@ -17,17 +17,60 @@ const server = createServer(async (req, res) => {
   // TODO: Aquí irá la lógica del servidor
 
   const { method, url } = req
+  const [path, queryString] = url.split('?')
+  const searchParams = new URLSearchParams(queryString)
 
-  if(req.url === '/') {
+  if(path === '/') {
     return sendResponse(res, 200, { message: '¡Hola, desde node 🔥!' })
   }
 
-  if(req.method === 'GET') {
-    if(req.url === '/users') {
-      return sendResponse(res, 200, users)
+  if(method === 'GET') {
+    if(path === '/users') {
+
+      const limit = parseInt(searchParams.get('limit')) || users.length
+      const offset = parseInt(searchParams.get('offset')) || 0
+      const nameFilter = searchParams.get('name')
+      const minAge = searchParams.get('minAge')
+      const maxAge = searchParams.get('maxAge')
+
+      if(
+        limit && Number.isNaN(parseInt(limit)) ||
+        offset && Number.isNaN(parseInt(offset))
+      ) {
+        return sendResponse(res, 400, { error: 'Parámetros limit y offset deben ser números' })
+      }
+
+      if(
+          minAge && Number.isNaN(parseInt(minAge)) || 
+          maxAge && Number.isNaN(parseInt(maxAge))
+      ) {
+        return sendResponse(res, 400, { error: 'Parámetros minAge y maxAge deben ser números' })
+      }
+
+      if(nameFilter && !Number.isNaN(Number(nameFilter))) {
+        return sendResponse(res, 400, { error: 'Parámetro name debe ser texto' })
+      }
+
+      let filteredUsers = users
+
+      if(nameFilter) {
+        filteredUsers = filteredUsers.filter(user => user.name.toLowerCase().includes(nameFilter.toLowerCase()))
+      }
+
+      if(minAge) {
+        filteredUsers = filteredUsers.filter(user => user.age >= parseInt(minAge))
+      }
+
+      if(maxAge) {
+        filteredUsers = filteredUsers.filter(user => user.age <= parseInt(maxAge))
+      }
+
+      const paginatedUsers = filteredUsers.slice(offset, offset + limit)
+
+      return sendResponse(res, 200, paginatedUsers)
     }
 
-    if(req.url === '/health') {
+    if(path === '/health') {
       return sendResponse(
         res, 
         200, 
@@ -40,8 +83,8 @@ const server = createServer(async (req, res) => {
     }
   }
 
-  if(req.method === 'POST') {
-    if(req.url === '/users') {
+  if(method === 'POST') {
+    if(path === '/users') {
       const body = await json(req)
 
       if(!body.name || typeof body.name !== 'string') {
