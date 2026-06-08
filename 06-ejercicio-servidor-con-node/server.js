@@ -1,4 +1,7 @@
 import { createServer } from 'node:http'
+import { randomUUID } from 'node:crypto'
+import process from 'node:process'
+import { json } from 'node:stream/consumers'
 
 process.loadEnvFile()
 
@@ -10,14 +13,10 @@ function sendResponse(res, statusCode, data) {
   res.end(JSON.stringify(data))
 }
 
-const server = createServer((req, res) => {
+const server = createServer(async (req, res) => {
   // TODO: Aquí irá la lógica del servidor
 
   const { method, url } = req
-
-  if (method !== 'GET') {
-    return sendResponse(res, 405, { message: 'Método no permitido ⚠️' })
-  }
 
   if(req.url === '/') {
     return sendResponse(res, 200, { message: '¡Hola, desde node 🔥!' })
@@ -27,9 +26,49 @@ const server = createServer((req, res) => {
     if(req.url === '/users') {
       return sendResponse(res, 200, users)
     }
+
+    if(req.url === '/health') {
+      return sendResponse(
+        res, 
+        200, 
+        { 
+          message: 'Servidor en funcionamiento ✅',
+          uptime: Math.floor(process.uptime()),
+          timestamp: Date.now()
+        }
+      )
+    }
   }
 
-  return sendResponse(res, 404, { message: 'Ruta no encontrada ⚠️' })
+  if(req.method === 'POST') {
+    if(req.url === '/users') {
+      const body = await json(req)
+
+      if(!body.name || typeof body.name !== 'string') {
+        return sendResponse(res, 400, { error: 'Nombre requerido o inválido' })
+      }
+
+      if(!body.age || typeof body.age !== 'number') {
+        return sendResponse(res, 400, { error: 'Edad requerida o inválida' })
+      }
+
+      const newUser = {
+        id: randomUUID(),
+        name: body.name,
+        age: body.age,
+      }
+
+      try {
+        users.push(newUser)
+      } catch (error) {
+        return sendResponse(res, 400, { error: 'Error al crear el usuario ⚠️' })
+      }
+      return sendResponse(res, 201, newUser)
+    }
+  }
+
+
+  return sendResponse(res, 404, { error : 'Ruta no encontrada' })
 
 })
 
