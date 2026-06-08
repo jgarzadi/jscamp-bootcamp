@@ -4,8 +4,33 @@ process.loadEnvFile()
 
 const port = process.env.PORT || 3000
 
+function sendResponse(res, statusCode, data) {
+  res.statusCode = statusCode
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  res.end(JSON.stringify(data))
+}
+
 const server = createServer((req, res) => {
   // TODO: Aquí irá la lógica del servidor
+
+  const { method, url } = req
+
+  if (method !== 'GET') {
+    return sendResponse(res, 405, { message: 'Método no permitido ⚠️' })
+  }
+
+  if(req.url === '/') {
+    return sendResponse(res, 200, { message: '¡Hola, desde node 🔥!' })
+  }
+
+  if(req.method === 'GET') {
+    if(req.url === '/users') {
+      return sendResponse(res, 200, users)
+    }
+  }
+
+  return sendResponse(res, 404, { message: 'Ruta no encontrada ⚠️' })
+
 })
 
 server.listen(port, () => {
