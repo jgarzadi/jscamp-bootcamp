@@ -27,11 +27,17 @@ const server = createServer(async (req, res) => {
   if(method === 'GET') {
     if(path === '/users') {
 
-      const limit = parseInt(searchParams.get('limit')) || users.length
-      const offset = parseInt(searchParams.get('offset')) || 0
+      /* Si pasamos un número negativo, lo convertimos a 0 */
+      const limitValue = Math.max(parseInt(searchParams.get('limit')), 0)
+      const limit = limitValue || users.length
+      
+      /* Lo mismo, si es negativo lo convertimos a 0 */
+      const offsetValue = Math.max(parseInt(searchParams.get('offset')), 0)
+      const offset = offsetValue || 0
+      
       const nameFilter = searchParams.get('name')
-      const minAge = searchParams.get('minAge')
-      const maxAge = searchParams.get('maxAge')
+      const minAge = Math.max(parseInt(searchParams.get('minAge')), 0)
+      const maxAge = Math.max(parseInt(searchParams.get('maxAge')), 0)
 
       if(
         limit && Number.isNaN(parseInt(limit)) ||
