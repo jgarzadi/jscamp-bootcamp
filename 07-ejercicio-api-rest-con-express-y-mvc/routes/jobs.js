@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { JobController } from '../controllers/jobs.js'  
 
 export const jobsRouter = Router()
 
@@ -13,3 +14,10 @@ Deberás implementar:
 - Actualizar parcialmente un job por id [PATCH]
 - Eliminar un job por id [DELETE]
 */
+
+jobsRouter.get('/', JobController.getAllJobs)
+jobsRouter.get('/:id', JobController.getJobById)
+jobsRouter.post('/', JobController.createJob)
+jobsRouter.put('/:id', JobController.updateJobById)
+jobsRouter.patch('/:id', JobController.patchJobById)
+jobsRouter.delete('/:id', JobController.deleteJobById)
