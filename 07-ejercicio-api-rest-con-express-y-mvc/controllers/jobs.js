@@ -16,6 +16,19 @@ export class JobController {
     }
 
     static async getJobById(req, res) {
+        try {
+            const { id } = req.params
+            const job = await JobModel.getJobById(id)
+
+            if (!job) {
+                return res.status(404).json({ message: 'Trabajo no encontrado' })
+            }
+
+            return res.status(200).json({ data: job })
+
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el trabajo', error: error.message });
+        }
 
     }
 

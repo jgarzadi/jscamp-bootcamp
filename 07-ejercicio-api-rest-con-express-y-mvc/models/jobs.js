@@ -46,7 +46,8 @@ export class JobModel {
     }
 
     static async getJobById(id) {
-
+        const job = jobs.find(job => job.id === id)
+        return job
     }
 
     static async createJob(jobData) {
