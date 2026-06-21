@@ -65,7 +65,7 @@ export class JobModel {
         if (jobIndex === -1) {
             return null
         }
-        const updatedJob = { ...jobs[jobIndex], ...jobData }
+        const updatedJob = { id, ...jobData }
         jobs[jobIndex] = updatedJob
         return updatedJob
     }
