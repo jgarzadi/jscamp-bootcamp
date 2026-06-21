@@ -42,11 +42,42 @@ export class JobController {
     }
 
     static async updateJobById(req, res) {
+        try {
+            const { id } = req.params
+            const updatedJob = await JobModel.updateJobById(id, req.body)
+
+            if (!updatedJob) {
+                return res.status(404).json({ message: 'Trabajo no encontrado' })
+            }
+            return res.status(200).json({ data: updatedJob })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el trabajo', error: error.message });
+        }
     }
 
     static async patchJobById(req, res) {
+        try {
+            const { id } = req.params
+            const updatedJob = await JobModel.patchJobById(id, req.body)
+            if (!updatedJob) {
+                return res.status(404).json({ message: 'Trabajo no encontrado' })
+            }
+            return res.status(200).json({ data: updatedJob })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el trabajo', error: error.message });
+        }
     }
 
     static async deleteJobById(req, res) {
+        try {
+            const { id } = req.params
+            const deletedJob = await JobModel.deleteJobById(id)
+            if (!deletedJob) {
+                return res.status(404).json({ message: 'Trabajo no encontrado' })
+            }
+            return res.status(200).json({ data: deletedJob })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al eliminar el trabajo', error: error.message });
+        }
     }
 }

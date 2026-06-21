@@ -61,14 +61,33 @@ export class JobModel {
     }
 
     static async updateJobById(id, jobData) {
-
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) {
+            return null
+        }
+        const updatedJob = { ...jobs[jobIndex], ...jobData }
+        jobs[jobIndex] = updatedJob
+        return updatedJob
     }
 
     static async patchJobById(id, jobData) {
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) {
+            return null
+        }
+        const updatedJob = { ...jobs[jobIndex], ...jobData }
+        jobs[jobIndex] = updatedJob
+        return updatedJob
 
     }
 
     static async deleteJobById(id) {
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) {
+            return null
+        }
+        const deletedJob = jobs.splice(jobIndex, 1)[0]
+        return deletedJob
 
     }
 
