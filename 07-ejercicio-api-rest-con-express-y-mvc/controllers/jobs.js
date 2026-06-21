@@ -33,6 +33,12 @@ export class JobController {
     }
 
     static async createJob(req, res) {
+        try {
+            const newJob = await JobModel.createJob(req.body)
+            return res.status(201).json({ data: newJob })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al crear el trabajo', error: error.message });
+        }
     }
 
     static async updateJobById(req, res) {
