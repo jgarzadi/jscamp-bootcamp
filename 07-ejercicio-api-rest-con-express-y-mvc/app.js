@@ -6,7 +6,7 @@ import { DEFAULTS } from './config.js'
 const PORT = process.env.PORT ?? DEFAULTS.PORT
 const app = express()
 
-//app.use(corsMiddleware())
+app.use(corsMiddleware())
 app.use(express.json())
 app.use('/jobs', jobsRouter)
 
