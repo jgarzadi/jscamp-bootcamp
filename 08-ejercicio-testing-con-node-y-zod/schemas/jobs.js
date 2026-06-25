@@ -33,7 +33,7 @@ export const jobSchema = z.object({
         technology: z.array(z.string()).optional(),
         modalidad: z.string().optional(),
         nivel: z.string().optional(),
-    })
+    }).optional()
 })
 
 export const validateJob = (job) => {
