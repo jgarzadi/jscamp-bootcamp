@@ -1,5 +1,5 @@
-import jobs from '../jobs.json' with { type: 'json' }
 import { randomUUID } from 'crypto'
+import jobs from '../jobs.json' with { type: 'json' }
 
 /* Aquí deberá ir la lógica de tu modelo */
 /* Recuerda que el modelo SOLO debe manejar la lógica de los datos, en este caso nuestro JSON */
@@ -33,12 +33,12 @@ export class JobModel {
 
         if (limit) {
             this.validateLimit(limit)
-            limit = parseInt(limit), 0
+            limit = Number(limit), 0 // <- Es mejor usar Number para transformaciones de números, parseInt te permite cosas como "232x4334" y operaciones raras
         }
 
         if (offset) {
             this.validateOffset(offset)
-            offset = parseInt(offset), 0
+            offset = Number(offset), 0
         }
 
         const paginatedJobs = filteredJobs.slice(offset, offset + limit)
@@ -115,6 +115,7 @@ export class JobModel {
         }
     }
 
+    /* Excelente estas validaciones */
     static validateLimit(limit) {
         if (Number.isNaN(limit) || limit < 0) {
             throw new Error('El límite debe ser un número positivo.');
