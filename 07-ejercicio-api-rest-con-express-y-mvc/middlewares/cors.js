@@ -13,7 +13,8 @@ export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => {
     return cors({
         origin: (origin, callback) => {
             console.log('Origin:', origin)
-            if (acceptedOrigins.includes(origin)) {
+            /* Aceptamos las peticiones cuando no existen tambien */
+            if (acceptedOrigins.includes(origin) || !origin) {
                 return callback(null, true)
             }
             return callback(new Error('No permitido por CORS'))
