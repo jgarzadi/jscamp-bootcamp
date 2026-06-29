@@ -9,8 +9,8 @@
  * - Comprobar códigos de estado HTTP correctos
  */
 
-import { test, describe, before, after } from 'node:test'
 import assert from 'node:assert'
+import { after, before, describe, test } from 'node:test'
 import app from './app.js'
 
 let server
@@ -62,13 +62,25 @@ describe('Get /jobs', () => {
     }),
 
     test('Debe aplicar offset correctamente', async () => {
-        const offset = 1
+        const offset = 4 // <- Cambiamos a 4 para que se pueda ver que realmente funciona el test con los nuevos cambios
         const response = await fetch(`${BASE_URL}/jobs?offset=${offset}`)
         assert.strictEqual(response.status, 200)
 
         const json = await response.json()
         assert.ok(json.data.length > 0, 'No se recibieron resultados después de aplicar offset')
-        assert.strictEqual(json.data[0].id, 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57')
+        /* assert.strictEqual(json.data[0].id, 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57') */
+
+        /* El test está genial! Una cosa que podríamos hacer para llevar esto a un siguiente nivel es usar datos reales y no hardcodeados */
+
+        /* 1. Obtenemos la lista de todos los jobs */
+        const allJobsRes = await fetch(`${BASE_URL}/jobs`)
+        const allJobs = await allJobsRes.json()
+
+        /* 2. Seleccionamos el job de la posición offset */
+        const selectedJobIdFromAllJobs = allJobs.data[offset].id
+
+        /* 3. Verificamos que el primer resultado con el offset sea igual al que seleccionamos de la lista completa */
+        assert.strictEqual(json.data[0].id, selectedJobIdFromAllJobs)
     })
 
 })
@@ -193,6 +205,26 @@ describe('POST /jobs', () => {
 
 describe('GET /jobs/:id', () => {
     test('Debe devolver el trabajo con el ID especificado', async () => {
+        /* Aquí podemos hacer algo distinto, podemos obtener todos los jobs, obtener uno random y hacer la petición de ese */
+        /* Lo que está hecho no está mal, es para que tengas una alternativa distinta y dinámica */
+
+        /* 1. Obtenemos todos los jobs */
+        const allJobsRes = await fetch(`${BASE_URL}/jobs`)
+        const allJobsJson = await allJobsRes.json()
+        const allJobs = allJobsJson.data
+
+        /* 2. Seleccionamos uno de manera aleatoria */
+        const randomJobId = allJobs[Math.floor(Math.random() * allJobs.length)].id
+
+        /* 3. Hacemos la validación consultando por su ID */
+        const jobByIdRes = await fetch(`${BASE_URL}/jobs/${randomJobId}`)
+        assert.strictEqual(jobByIdRes.status, 200)
+
+        const jobById = await jobByIdRes.json()
+        assert.strictEqual(jobById.id, randomJobId)
+
+
+        /* Test anterior */
         const id = 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57'
         const response = await fetch(`${BASE_URL}/jobs/${id}`)
         assert.strictEqual(response.status, 200)
@@ -290,6 +322,7 @@ describe('PATCH /jobs/:id', () => {
 
 describe('DELETE /jobs/:id', () => {
     test('Debe recibir 204 y eliminar el trabajo', async () => {
+        /* Una cosa que podemos hacer aquí es comprobar antes de eliminar que existe */
         const id = 'f62d8a34-923a-4ac2-9b0b-14e0ac2f5405'
         const deleteResponse = await fetch(`${BASE_URL}/jobs/${id}`, {
             method: 'DELETE'
