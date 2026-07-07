@@ -1,11 +1,11 @@
 /* Aquí irá el código de tu test */
 
 // @ts-check
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test('Buscador visible', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchInput = page.getByRole('search')
+  const searchInput = page.getByRole('search') // <- En este caso solo tenemos un `search` en la página, pero para tener en cuenta: Si lo hacemos en un sitio que tiene más de un input, no deberíamos buscarlo en la `page` global [page.getByRole('search')], sino en el elemento específico en el que se encuentra, un formulario por ejemplo: [form.getByRole('search')]
   const searchButton = page.getByRole('button', { name: 'Buscar' })
   await expect(searchInput).toBeVisible()
   await expect(searchButton).toBeVisible()
@@ -13,22 +13,14 @@ test('Buscador visible', async ({ page }) => {
 
 test('Buscar trabajos de React', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchForm = page.getByRole('search')
-  const searchButton = page.getByRole('button', { name: 'Buscar' })
-  const searchInput = searchForm.getByRole('searchbox')
-  await searchInput.fill('React')
-  await searchButton.click()
-  const jobResults = page.getByRole('article')
+  await handleSearchByTerm(page, 'React')
+  const jobResults = await page.getByRole('article') // <- después de una acción en la que va a cambiar la UI, podemos agregar `await` en el `getByRole()` para evitar que se busque el elemento antes de que cargue
   await expect(jobResults.first()).toBeVisible()
 })
 
 test('Aplicar a un trabajo', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchForm = page.getByRole('search')
-  const searchButton = page.getByRole('button', { name: 'Buscar' })
-  const searchInput = searchForm.getByRole('searchbox')
-  await searchInput.fill('JavaScript')
-  await searchButton.click()
+  await handleSearchByTerm(page, 'JavaScript')
   const jobResults = page.getByRole('article')
   await expect(jobResults.first()).toBeVisible()
   await jobResults.first().click()
@@ -70,11 +62,7 @@ test('Filtrar por nivel', async ({ page }) => {
 
 test('Verificar paginación', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchForm = page.getByRole('search')
-  const searchButton = page.getByRole('button', { name: 'Buscar' })
-  const searchInput = searchForm.getByRole('searchbox')
-  await searchInput.fill('JavaScript')
-  await searchButton.click()
+  await handleSearchByTerm(page, 'JavaScript')
   const jobResults = page.getByRole('article')
   await expect(jobResults.first()).toBeVisible()
   const firstIds = await page.getByRole('article').evaluateAll(els =>
@@ -93,15 +81,11 @@ test('Verificar paginación', async ({ page }) => {
 
 test('Verificar detalle de empleo', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchForm = page.getByRole('search')
-  const searchButton = page.getByRole('button', { name: 'Buscar' })
-  const searchInput = searchForm.getByRole('searchbox')
-  await searchInput.fill('JavaScript')
-  await searchButton.click()
+  await handleSearchByTerm(page, 'JavaScript')
   const jobResults = page.getByRole('article')
   await expect(jobResults.first()).toBeVisible()
   await jobResults.first().getByRole('link').click()
-  const jobTitle = page.locator('[class*="_title_"]').first()
+  const jobTitle = page.locator('[class*="_title_"]').first() // <- Tratemos siembre de evitar selectores por CSS. En este caso, podemos usar elector por role, o en el peor de los casos, agregar un `data-testid`.
   await expect(jobTitle).toBeVisible()
   await expect(jobTitle).toHaveText('Desarrollador de Software Senior')
   const loginButton = page.getByRole('button', { name: 'Iniciar sesión' })
@@ -111,3 +95,14 @@ test('Verificar detalle de empleo', async ({ page }) => {
   const appliedButton = page.getByRole('button', { name: 'Aplicar Ahora' })
   await expect(appliedButton).toBeVisible()
 })
+
+/* Esto es un extra, no significa que lo que hiciste esté mal: */
+/* Si vemos que repetimos mucho código en un test, lo mejor que podemos hacer es pasar esa lógica a una función y reutilizar */
+
+async function handleSearchByTerm(element, term) {
+  const searchForm = element.getByRole('search')
+  const searchInput = searchForm.getByRole('searchbox')
+  const searchButton = element.getByRole('button', { name: 'Buscar' })
+  await searchInput.fill(term)
+  await searchButton.click()
+}
