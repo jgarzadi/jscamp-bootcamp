@@ -1,1 +1,2 @@
 <!-- Aquí puedes poner tus dudas sobre el ejercicio -->
+hola Mateo, en el ejercició 4, el método filterByTechnology se queja al esperar un valor de tipo technology, no estoy seguro de cual sería la implementación correcta, si definir el parametro como technology o castearlo como lo agregué para mantener la normalización a lower case.
