@@ -1,19 +1,17 @@
 /* En este ejercicio deberás tipar las funciones con los tipos ya creados. Ten en cuenta que los tipos de experiencia son literales, por lo que tendrás que corregir el código para que funcione correctamente. */
 
 import type { Job, Candidate } from './objects.ts'
-import type { Technology, ExperienceLevel } from './types.ts'
+import type { Technology } from './types.ts'
 
 // Validar candidato para un empleo
 export function isQualified(candidate: Candidate, job: Job): boolean {
   // Verificar años de experiencia
   const requiredYears =
-    job.experienceLevel === 'junior'
-      ? 0
-      : job.experienceLevel === 'mid'
-        ? 2
-        : job.experienceLevel === 'senior'
-          ? 5
-          : 8
+    job.experienceLevel === 'junior' ? 0
+      : job.experienceLevel === 'mid' ? 2
+      : job.experienceLevel === 'senior' ? 5
+      : job.experienceLevel === 'lead' ? 8 
+      : 0
 
   if (candidate.experienceYears < requiredYears) {
     return false
