@@ -1,5 +1,5 @@
 /* Aquí deberás definir los tipos Job y Candidate creados en objects.ts para los arrays dados */
-import { Job, Candidate, Company } from './objects.ts'
+import type { Job, Candidate, Company } from './objects.ts'
 
 export const jobs: Job[] = [
   {
