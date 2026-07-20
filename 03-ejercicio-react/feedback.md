@@ -7,3 +7,5 @@ Lo que si hicimos algunos cambios para implementar el `debounce` y el `custom ro
 Esto es lo que podría ser mas costoso de entender, pero para eso estamos! No dudes en preguntarme por aquí o Discord si te quedó alguna duda
 
 Un saludo!!
+----
+Gracias por el feedback Mateo, quedó al pendiente si hay algún cambio a realizar para este ejercicio.
