@@ -6,3 +6,6 @@ Hicimos algunos cambios menores para mejorar la UX:
 - Controlar el error de directorio no encontrado
 
 A seguir trabajando que vas muy bien!
+
+---
+Gracias por el feedback!
