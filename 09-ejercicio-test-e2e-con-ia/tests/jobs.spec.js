@@ -5,7 +5,8 @@ import { expect, test } from '@playwright/test'
 
 test('Buscador visible', async ({ page }) => {
   await page.goto('http://localhost:5173/')
-  const searchInput = page.getByRole('search') // <- En este caso solo tenemos un `search` en la página, pero para tener en cuenta: Si lo hacemos en un sitio que tiene más de un input, no deberíamos buscarlo en la `page` global [page.getByRole('search')], sino en el elemento específico en el que se encuentra, un formulario por ejemplo: [form.getByRole('search')]
+  const searchForm = page.getByRole('search') // <- En este caso solo tenemos un `search` en la página, pero para tener en cuenta: Si lo hacemos en un sitio que tiene más de un input, no deberíamos buscarlo en la `page` global [page.getByRole('search')], sino en el elemento específico en el que se encuentra, un formulario por ejemplo: [form.getByRole('search')]
+  const searchInput = searchForm.getByRole('searchbox')
   const searchButton = page.getByRole('button', { name: 'Buscar' })
   await expect(searchInput).toBeVisible()
   await expect(searchButton).toBeVisible()
@@ -21,7 +22,7 @@ test('Buscar trabajos de React', async ({ page }) => {
 test('Aplicar a un trabajo', async ({ page }) => {
   await page.goto('http://localhost:5173/')
   await handleSearchByTerm(page, 'JavaScript')
-  const jobResults = page.getByRole('article')
+  const jobResults = await page.getByRole('article')
   await expect(jobResults.first()).toBeVisible()
   await jobResults.first().click()
   const jobDetail = jobResults.first().getByRole('heading', { level: 3 })
@@ -82,10 +83,10 @@ test('Verificar paginación', async ({ page }) => {
 test('Verificar detalle de empleo', async ({ page }) => {
   await page.goto('http://localhost:5173/')
   await handleSearchByTerm(page, 'JavaScript')
-  const jobResults = page.getByRole('article')
+  const jobResults = await page.getByRole('article')
   await expect(jobResults.first()).toBeVisible()
   await jobResults.first().getByRole('link').click()
-  const jobTitle = page.locator('[class*="_title_"]').first() // <- Tratemos siembre de evitar selectores por CSS. En este caso, podemos usar elector por role, o en el peor de los casos, agregar un `data-testid`.
+  const jobTitle = page.getByRole('heading', { level: 3 }).first() // <- Tratemos siembre de evitar selectores por CSS. En este caso, podemos usar elector por role, o en el peor de los casos, agregar un `data-testid`.
   await expect(jobTitle).toBeVisible()
   await expect(jobTitle).toHaveText('Desarrollador de Software Senior')
   const loginButton = page.getByRole('button', { name: 'Iniciar sesión' })
