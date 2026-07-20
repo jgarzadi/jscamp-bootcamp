@@ -1,2 +1,5 @@
 <!-- Aquí puedes poner tus dudas sobre el ejercicio -->
 hola Mateo, en el ejercició 4, el método filterByTechnology se queja al esperar un valor de tipo technology, no estoy seguro de cual sería la implementación correcta, si definir el parametro como technology o castearlo como lo agregué para mantener la normalización a lower case.
+
+No estoy seguro si esto es similar a mi duda anterior, ahora en tuplas opencode (MiniMax-M3) me sugirió implementar la siguiente sintaxis para asegurar que salary es de tipo número ya que se usa posteriormente y al ser opcional puede ser también undefined, opencode me sugiere que no use cast, ya que podría resolver el compilado pero no el runtime, agradezc si me puedes ya sea confirmar o aclarar este punto:
+```filter((job): job is Job & { salary: number } => job.salary !== undefined)```
