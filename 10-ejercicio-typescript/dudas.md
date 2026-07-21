@@ -55,3 +55,6 @@ Con `.filter((job) => job.salary !== undefined)` ya sabemos que no van a pasar e
 Si pasan solo números, podemos definir que `.map((job) => job.salary as number)`.
 
 Si entiendes y puedes replicar el caso de MiniMax en otros ejemplos, adelante! Es mejor alternativa que "confiar" en que job.salary va a ser un number.
+
+---
+Muchisimas gracias por la explicación Mateo, me queda ya claro la intención de tener controlados los valores que estamos pasando y entender el escenario para cada funcionalidad.
