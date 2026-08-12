@@ -30,6 +30,6 @@ jobs:
               env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 ISSUE_NUMBER: ${{ github.event.issue.number }}
+                GITHUB_REPOSITORY: ${{ github.repository }}
               run: |
-                gh issue comment $ISSUE_NUMBER --body "Thank you for opening this issue! A team member will review it shortly." --repo ${{ github.repository }} --token $GH_TOKEN
-              
+                gh issue comment $ISSUE_NUMBER --body "Thank you for opening this issue! A team member will review it shortly." --repo $GITHUB_REPOSITORY
