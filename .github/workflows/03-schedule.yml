@@ -1,0 +1,21 @@
+# This workflow is triggered on a schedule on Mondays at 9 AM UTC and can also be triggered manually.
+# cron expression '0 9 * * 1':
+# - Minute: 0
+# - Hour: 9
+# - Day of Month: * (every day)
+# - Month: * (every month)
+# - Day of Week: 1 (Monday)
+name: 03 - Schedule
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '0 9 * * 1' # Runs every Monday at 9 AM UTC 
+
+jobs:
+    hello-print:
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Print Hello
+              run: |
+                echo "Hola desde GitHub Actions!"
