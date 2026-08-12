@@ -23,7 +23,7 @@ jobs:
               run: |
                 echo "Event Name: ${{ github.event_name }}"
                 echo "Issue Number: ${{ github.event.issue.number }}"
-                echo "Event Body: ${{ github.event.comment.body }}"
+                echo "Event Body: ${{ github.event.issue.body }}"
 
             - name: Add comment as bot
               if: ${{ github.event_name == 'issues' && github.event.action == 'opened' }}
