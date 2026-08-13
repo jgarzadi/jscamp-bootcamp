@@ -36,6 +36,5 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        find . -name "pnpm-lock.yaml"
-        ls -la
-        pnpm install
+        cd 12-ejercicio-cicd
+        pnpm install --frozen-lockfile
