@@ -34,5 +34,4 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      working-directory: 12-ejercicio-cicd
       run: pnpm install --frozen-lockfile 
