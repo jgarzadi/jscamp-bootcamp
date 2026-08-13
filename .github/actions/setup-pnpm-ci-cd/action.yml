@@ -35,7 +35,7 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      working-directory: 12-ejercicio-cicd
       run: |
         find . -name "pnpm-lock.yaml"
         ls -la
+        pnpm install
