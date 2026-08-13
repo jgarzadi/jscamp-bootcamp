@@ -1,0 +1,134 @@
+name: 05 - CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+    frontend-lint:
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Lint
+              run: |
+                echo "::group::Linting"
+                pnpm lint:frontend
+                echo "::endgroup::"
+
+    frontend-test:
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Test
+              run: |
+                echo "::group::Running tests"
+                pnpm test:frontend
+                echo "::endgroup::"
+    
+    frontend-build:
+        needs: [frontend-test, frontend-lint ]
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+            
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Lint
+              run: |
+                echo "::group::Linting"
+                pnpm build:frontend
+                echo "::endgroup::"
+        
+
+    backend-lint:
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Lint
+              run: |
+                echo "::group::Linting"
+                pnpm lint:backend
+                echo "::endgroup::"
+
+    backend-test:
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Test
+              run: |
+                echo "::group::Running tests"
+                pnpm test:backend
+                echo "::endgroup::"
+    
+    backend-build:
+        needs: [backend-test, backend-lint ]
+        runs-on: ubuntu-24.04
+
+        defaults:
+            run:
+                working-directory: 12-ejercicio-cid
+            
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            - name: Setup pnpm and Node.js
+              uses: ./.github/actions/setup-pnpm-ci-cd
+
+            - name: Lint
+              run: |
+                echo "::group::Linting"
+                pnpm build:backend
+                pnpm start:backend
+                echo "::endgroup::"
