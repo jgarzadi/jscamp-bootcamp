@@ -37,4 +37,5 @@ runs:
       shell: bash
       working-directory: 12-ejercicio-cicd
       run: |
-        pnpm install --frozen-lockfile 
+        find . -name "pnpm-lock.yaml"
+        ls -la
