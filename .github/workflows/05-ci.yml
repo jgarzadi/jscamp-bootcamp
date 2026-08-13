@@ -34,7 +34,7 @@ jobs:
 
         defaults:
             run:
-                working-directory: 12-ejercicio-cid
+                working-directory: 12-ejercicio-cicd
 
         steps:
             - name: Checkout Code
@@ -55,7 +55,7 @@ jobs:
 
         defaults:
             run:
-                working-directory: 12-ejercicio-cid
+                working-directory: 12-ejercicio-cicd
             
         steps:
             - name: Checkout Code
@@ -76,7 +76,7 @@ jobs:
 
         defaults:
             run:
-                working-directory: 12-ejercicio-cid
+                working-directory: 12-ejercicio-cicd
 
         steps:
             - name: Checkout Code
@@ -96,7 +96,7 @@ jobs:
 
         defaults:
             run:
-                working-directory: 12-ejercicio-cid
+                working-directory: 12-ejercicio-cicd
 
         steps:
             - name: Checkout Code
@@ -117,7 +117,7 @@ jobs:
 
         defaults:
             run:
-                working-directory: 12-ejercicio-cid
+                working-directory: 12-ejercicio-cicd
             
         steps:
             - name: Checkout Code
