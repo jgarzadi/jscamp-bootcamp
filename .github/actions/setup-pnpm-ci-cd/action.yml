@@ -31,6 +31,7 @@ runs:
       with:
         node-version:  ${{ inputs.node-version }}
         cache: pnpm
+        working-directory: 12-ejercicio-cicd
     
     - name: Install dependencies
       shell: bash
