@@ -36,8 +36,4 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        git ls-files | grep pnpm-lock.yaml
-        git ls-files | grep pnpm-workspace.yaml
-        cat .gitignore | grep -i lockgit ls-files | grep pnpm-lock.yaml
-        git ls-files | grep pnpm-workspace.yaml
-        cat .gitignore | grep -i lock
+        pnpm install
