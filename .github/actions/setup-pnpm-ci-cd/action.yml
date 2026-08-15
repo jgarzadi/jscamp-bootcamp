@@ -37,4 +37,4 @@ runs:
       shell: bash
       run: |
         cd 12-ejercicio-cicd
-        pnpm install
+        pnpm install --frozen-lockfile
