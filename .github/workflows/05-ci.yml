@@ -64,9 +64,9 @@ jobs:
             - name: Setup pnpm and Node.js
               uses: ./.github/actions/setup-pnpm-ci-cd
 
-            - name: Lint
+            - name: Build frontend
               run: |
-                echo "::group::Linting"
+                echo "::group::Building frontend"
                 pnpm build:frontend
                 echo "::endgroup::"
         
@@ -126,8 +126,8 @@ jobs:
             - name: Setup pnpm and Node.js
               uses: ./.github/actions/setup-pnpm-ci-cd
 
-            - name: Lint
+            - name: Build backend
               run: |
-                echo "::group::Linting"
+                echo "::group::Building backend"
                 pnpm build:backend
                 echo "::endgroup::"
