@@ -34,7 +34,7 @@ const server = createServer((req, res) => {
   // Ruta por defecto
   let visitasActuales = fs.readFileSync(DATA_FILE, 'utf-8') || '0';
   res.end(JSON.stringify({
-    message: 'HOLA QUÉ PASA CHAVALES',
+    message: 'HOLA QUÉ PASA CHAVALES con mensaje modificado',
     instrucciones: 'Visita /visitar para registrar una nueva visita persistente en disco.',
     contador_actual: parseInt(visitasActuales, 10),
     db_config: `Conectando por red al host de base de datos: "${DB_HOST}"`
