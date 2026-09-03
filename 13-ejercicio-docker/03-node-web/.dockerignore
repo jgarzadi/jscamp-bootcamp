@@ -3,6 +3,8 @@ node_modules
 .gitignore
 *.md
 .env
-.env.
+# .env. solo ignora un archivo que se llamara exactamente ".env."
+# Ahora usamos .env.* para ignorar todos los archivos que empiecen con ".env.", por ejemplo .env.local
+.env.*
 .DS_Store
 .vscode
